@@ -44,7 +44,7 @@ Credits are an internal exchange unit, with no purchase, cash withdrawal or paym
 
 ## Release status
 
-The live application now includes the tested product and UI updates, deployed on 2026-10-11 from merged source `ee0c708`. The earlier working demo remains available for rollback. Before this update, the owner demonstrated Google onboarding, a Jitsi call and a 0.5-credit transfer leaving learner/teacher balances of 2.5 and 3.5 credits.
+The live application includes the tested product and UI updates. Its latest performance release, source `a565076`, runs beside Supabase in Mumbai and adds faster page reads, coalesced refreshes and filters that navigate without a full reload. The measured mean full-page response fell from 2.19 to 0.77 seconds in cloud checks; see [performance evidence and rollback](docs/PERFORMANCE.md). Earlier working releases remain available for recovery. Before these updates, the owner demonstrated Google onboarding, a Jitsi call and a 0.5-credit transfer leaving learner/teacher balances of 2.5 and 3.5 credits.
 
 | Status | What it includes |
 | --- | --- |
@@ -330,7 +330,7 @@ PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e
 
 Tests load `.local/local.env`, require loopback services and refuse hosted account creation. Leave the test app port free and stop task test/dev servers before building. Some tests adjust local timing fixtures; those are not claims of real elapsed hosted sessions or real provider media. The short timed demo test separately verifies actual local elapsed time and exact-once transfer with normal starter grants.
 
-The preserved release has passing unit/build and integration/mobile evidence in [progress](docs/PROGRESS.md). The upgrade has 39 passing unit tests and passing evidence for 32 distinct local integration/browser cases across full and focused runs. Automated checks do not establish external email delivery, Google account interaction or physical-phone video quality.
+The latest release has 39 passing unit tests and passing evidence for 45 distinct local integration/browser cases: a 44-case full regression plus the final seven affected-flow checks after improving filter navigation. Lint, TypeScript and the production build pass; [performance evidence](docs/PERFORMANCE.md) records the live HTTP checks and timings. Automated checks do not establish external email delivery, Google account interaction or physical-phone video quality.
 
 ## Further documentation
 

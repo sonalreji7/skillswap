@@ -1,5 +1,9 @@
 # Hosting SkillSwap
 
+The latest production release is source `a565076afb1c7b8bf7f8492fa5f9a4173f20db14`, READY deployment `dpl_3KgcQpsSPinSrAJ38efXXgsfTKKe`, on the same canonical URL. Both the Vercel project function default and `vercel.json` now select single-region Mumbai (`bom1`) beside Supabase. API file uploads retained the old project region until its default was explicitly updated and the source rebuilt; verify deployment metadata and actual response headers after releases. [Performance evidence](PERFORMANCE.md) records the timings, local tests and retained UI-release rollback. No database migration or paid plan change was required for this release.
+
+## Earlier product and UI release
+
 The canonical URL is **https://skillswap-comm.vercel.app**; the previous address redirects to it. On 2026-10-11 the owner authorized deployment of merged source `ee0c7085a573e90451b2c17d93c90b12f2340ee2`, which reached READY as `dpl_3xCLXLSLdMTWGbaxWtDRtDH7Sf6P`. The release includes product upgrades, Light/Dark/System themes, mobile navigation and visible booking buttons. Two additive migrations and the pending-request expiry schedule were applied before deployment; all 18 migrations and row security on 14 app tables pass readiness. See [current release evidence](NAVIGATION_FIXES.md).
 
 The earlier working application is retained under `demo-working-2026-10-11` and READY deployment `dpl_67e2bxdGytmLjsDNoWQX6FbYa5pU` for rollback. Follow [upgrade and rollback](PRODUCT_UPGRADE.md) for recovery without resetting ledger data. Git pushes do not currently auto-deploy. Email delivery remains disabled until SMTP is configured and tested; existing password login and Google sign-in remain available. New live Google consent, real media and a two-person transfer are manual follow-up checks.

@@ -1,6 +1,8 @@
 # Product upgrade and rollback
 
-The owner authorized the full release on 2026-10-11. Production now serves merged source `ee0c7085a573e90451b2c17d93c90b12f2340ee2`, READY deployment `dpl_3xCLXLSLdMTWGbaxWtDRtDH7Sf6P`, at https://skillswap-comm.vercel.app. Both additive migrations and the named expiry schedule are applied; readiness verifies all 18 migrations and row security on 14 application tables. See [release evidence](NAVIGATION_FIXES.md). The preparation notes below remain useful for understanding the upgrade and retained rollback.
+The latest application release adds [navigation performance fixes](PERFORMANCE.md): source `a565076`, READY deployment `dpl_3KgcQpsSPinSrAJ38efXXgsfTKKe` in Mumbai, with no further database migrations. The full product upgrade and UI release described below preceded this tuning; all 18 hosted migrations remain applied.
+
+The owner authorized the full release on 2026-10-11. That release served merged source `ee0c7085a573e90451b2c17d93c90b12f2340ee2`, READY deployment `dpl_3xCLXLSLdMTWGbaxWtDRtDH7Sf6P`, at https://skillswap-comm.vercel.app; it is now retained as the pre-performance rollback target. Both additive migrations and the named expiry schedule are applied; readiness verifies all 18 migrations and row security on 14 application tables. See [release evidence](NAVIGATION_FIXES.md). The preparation notes below remain useful for understanding the upgrade and retained rollback.
 
 ## Preserved working release
 

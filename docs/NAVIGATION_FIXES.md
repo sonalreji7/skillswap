@@ -1,8 +1,10 @@
 # Navigation and theme release
 
+The UI release below is retained for rollback. The newer [performance release](PERFORMANCE.md), source `a565076`, runs in Mumbai as `dpl_3KgcQpsSPinSrAJ38efXXgsfTKKe` on the same production URL and retains these themes and button links.
+
 ## Released on 2026-10-11
 
-The owner authorized deployment, and Vercel now serves merged source `ee0c7085a573e90451b2c17d93c90b12f2340ee2` at **https://skillswap-comm.vercel.app**, READY deployment `dpl_3xCLXLSLdMTWGbaxWtDRtDH7Sf6P`. The two additive upgrade migrations and named one-minute request-expiry job were applied first. All 18 migrations, row security on 14 application tables, exact Auth configuration and the active worker/schedule pass the read-only readiness check. The 205-file upload excluded private environment/management files.
+The owner authorized deployment, and that UI release served merged source `ee0c7085a573e90451b2c17d93c90b12f2340ee2` at **https://skillswap-comm.vercel.app**, READY deployment `dpl_3xCLXLSLdMTWGbaxWtDRtDH7Sf6P`. The two additive upgrade migrations and named one-minute request-expiry job were applied first. All 18 migrations, row security on 14 application tables, exact Auth configuration and the active worker/schedule pass the read-only readiness check. The 205-file upload excluded private environment/management files.
 
 The original deployment `dpl_67e2bxdGytmLjsDNoWQX6FbYa5pU` remains the rollback target. Git deployment integration is still disconnected. Google configuration, the canonical origin, the old-host redirect and existing ledger data were retained. Email delivery remains disabled pending tested SMTP. The implementation and local test evidence below describe the released source; the earlier preparation statements are historical.
 
