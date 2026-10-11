@@ -15,8 +15,10 @@ export default async function RequestSession({params}:{params:Promise<{id:string
  const current=await getCurrentUser(client,user);if(!current.profile)redirect('/onboarding');
  const {data:teacher,error}=await client.from('profiles').select('display_name').eq('id',id).maybeSingle();
  if(error)throw new HttpError(503,'DATABASE_UNAVAILABLE','Member storage is unavailable.');if(!teacher)notFound();
- const balance=await wallet(client);
- const demo=await demoPolicy(client);
- const choices=await selections(client,id);const offered=await selectedSkills(client,choices.offeredSkillIds);
+ const [balance,demo,offered]=await Promise.all([
+  wallet(client),
+  demoPolicy(client),
+  selections(client,id).then(choices=>selectedSkills(client,choices.offeredSkillIds)),
+ ]);
  return <section className="mx-auto max-w-xl"><Link href={`/people/${id}`} className="secondary-button min-h-11 text-accent-strong">Back to member</Link><h1 className="mt-4 break-words text-3xl font-bold">Request a session with {teacher.display_name}</h1><BookingNotice />{offered.length?<BookingRequestForm teacherId={id} teacherName={teacher.display_name} skills={offered} timezone={current.timezone} availableUnits={balance.availableUnits} demo={demo}/>:<p>This member does not currently offer any enabled skills.</p>}</section>;
 }

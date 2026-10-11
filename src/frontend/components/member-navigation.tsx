@@ -4,12 +4,14 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { LogoutButton } from "@/frontend/components/logout-button";
 import {useUnreadNotifications} from './notification-inbox';
+import {NavigationHint} from './navigation-hint';
 
 const destinations = [["/dashboard", "Dashboard"], ["/discover", "Discover"], ["/bookings", "Bookings"], ["/notifications", "Notifications"], ["/wallet", "Wallet"], ["/community", "Community"], ["/profile", "Profile"]] as const;
 export function MemberNavigation({ isAdmin }: { isAdmin: boolean }) {
   const pathname = usePathname();
   const unread=useUnreadNotifications();
   const menu = useRef<HTMLDetailsElement>(null);
+  useEffect(() => { menu.current?.removeAttribute("open"); }, [pathname]);
   useEffect(() => {
     const closeOutside = (event: PointerEvent) => {
       if (event.target instanceof Node && !menu.current?.contains(event.target)) menu.current?.removeAttribute("open");
@@ -27,7 +29,7 @@ export function MemberNavigation({ isAdmin }: { isAdmin: boolean }) {
   function items(close?: (event: React.MouseEvent<HTMLAnchorElement>) => void) {
     return links.map(([href, label]) => {
       const active = pathname === href || pathname.startsWith(href + "/");
-      return <Link key={href} href={href} onClick={close} aria-current={active ? "page" : undefined} className={`secondary-button justify-start gap-2 px-3 text-sm ${active ? "bg-selected text-accent-deep" : "text-muted hover:bg-tint hover:text-accent-deep"}`}>{label}{href==='/notifications'&&unread>0&&<span className="rounded-full bg-emerald-800 px-2 py-1 text-xs text-white" aria-label={`${unread} unread notifications`}>{unread>99?'99+':unread}</span>}</Link>;
+      return <Link key={href} href={href} onClick={href===pathname?close:undefined} aria-current={active ? "page" : undefined} className={`secondary-button relative justify-start gap-2 px-3 text-sm ${active ? "bg-selected text-accent-deep" : "text-muted hover:bg-tint hover:text-accent-deep"}`}>{label}<NavigationHint label={label}/>{href==='/notifications'&&unread>0&&<span className="rounded-full bg-emerald-800 px-2 py-1 text-xs text-white" aria-label={`${unread} unread notifications`}>{unread>99?'99+':unread}</span>}</Link>;
     });
   }
   return <>
