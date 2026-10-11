@@ -1,16 +1,16 @@
 # Product upgrade and rollback
 
-The owner subsequently authorized the friendly production address; the exact same demo source was rebuilt with that origin. See [domain configuration](FRIENDLY_URL.md). This changes the retained deployment/origin, not the unreleased upgrade status.
+The owner authorized the full release on 2026-10-11. Production now serves merged source `ee0c7085a573e90451b2c17d93c90b12f2340ee2`, READY deployment `dpl_3xCLXLSLdMTWGbaxWtDRtDH7Sf6P`, at https://skillswap-comm.vercel.app. Both additive migrations and the named expiry schedule are applied; readiness verifies all 18 migrations and row security on 14 application tables. See [release evidence](NAVIGATION_FIXES.md). The preparation notes below remain useful for understanding the upgrade and retained rollback.
 
 ## Preserved working release
 
-The owner reports successful Google onboarding, a live Jitsi call and a 0.5-credit transfer leaving 2.5 and 3.5 credits. Production remains `https://skillswap-comm.vercel.app`, deployment `dpl_67e2bxdGytmLjsDNoWQX6FbYa5pU`, source `69b77dc88186ca9c046459efeb62c8080af5084b`.
+The owner reports successful Google onboarding, a live Jitsi call and a 0.5-credit transfer leaving 2.5 and 3.5 credits on the earlier demo. Its retained rollback deployment is `dpl_67e2bxdGytmLjsDNoWQX6FbYa5pU`, source `69b77dc88186ca9c046459efeb62c8080af5084b`, built for `https://skillswap-comm.vercel.app`.
 
 - Git tag: `demo-working-2026-10-11` — exact production application source.
 - Backup branch: `demo-backup-2026-10-11` — merged working release, including release documentation.
 - Upgrade branch: `product-upgrade` — isolated development and review.
 
-The backups are pushed. This upgrade does not replace the working deployment or alter the hosted database during implementation. It uses two additive migrations. Existing financial tables, applied migrations, starter grants and standard/demo booking terms remain compatible with the old application.
+The backups are pushed. Implementation preserved the working deployment and hosted database; the subsequent authorized release applied two additive migrations and retained the old deployment for recovery. Existing financial tables, applied migrations, starter grants and standard/demo booking terms remain compatible with the old application.
 
 ## Included improvements
 

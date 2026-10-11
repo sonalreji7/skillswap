@@ -1,10 +1,18 @@
 # Navigation and theme release
 
+## Released on 2026-10-11
+
+The owner authorized deployment, and Vercel now serves merged source `ee0c7085a573e90451b2c17d93c90b12f2340ee2` at **https://skillswap-comm.vercel.app**, READY deployment `dpl_3xCLXLSLdMTWGbaxWtDRtDH7Sf6P`. The two additive upgrade migrations and named one-minute request-expiry job were applied first. All 18 migrations, row security on 14 application tables, exact Auth configuration and the active worker/schedule pass the read-only readiness check. The 205-file upload excluded private environment/management files.
+
+The original deployment `dpl_67e2bxdGytmLjsDNoWQX6FbYa5pU` remains the rollback target. Git deployment integration is still disconnected. Google configuration, the canonical origin, the old-host redirect and existing ledger data were retained. Email delivery remains disabled pending tested SMTP. The implementation and local test evidence below describe the released source; the earlier preparation statements are historical.
+
+Live checks passed: home/login/signup/recovery returned 200 with theme controls, boot script and button navigation; anonymous member/admin pages redirected to sign-in; private APIs returned 401; an invalid page returned a themed 404 with recovery actions; a foreign-origin booking mutation returned 403. Existing admin password login, eight member/admin pages, four private read APIs and logout passed. All signed-in pages exposed the theme selector and booking navigation without account-load or missing-page errors. These checks created no hosted test accounts, bookings or synthetic credits. Real Google consent, video media and a new two-participant settlement were not exercised in this release smoke check.
+
 ## Why the live site had no theme control
 
 The public home page still had no `Color theme` control when checked for this task. Vercel's canonical alias was serving deployment `dpl_67e2bxdGytmLjsDNoWQX6FbYa5pU`, source `69b77dc88186ca9c046459efeb62c8080af5084b`. The owner had merged the theme work into `main` (`47bdcff`), but a Git merge does not update this project's deployment.
 
-The fixes are on `navigation-fixes`, based on that merged main. No production database change or deployment has been performed for this task.
+The fixes were prepared on `navigation-fixes` and subsequently merged into `main` in PR #19. At preparation time no production database change or deployment had been performed; the authorized release is recorded above.
 
 ## What changed
 
@@ -36,7 +44,7 @@ All 72 source hyperlink templates have real destination attributes and explicit 
 
 ## Release prerequisites and recovery
 
-The read-only production readiness check confirms the canonical origin, hosted project health, confirmed-email requirement, Google provider and exact Auth callbacks. Hosted production retains the original 12 app tables and has not received the two upgrade migrations. The new application source includes the already merged product upgrade; deploying it before applying those migrations would break booking lists, availability and notifications.
+The preparation-time readiness check confirmed the canonical origin, hosted project health, confirmed-email requirement, Google provider and exact Auth callbacks, while flagging the two pending upgrade migrations. Those prerequisites were applied before the release above; deploying the new application against the older schema would break booking lists, availability and notifications.
 
 For the full release, use the reviewed procedure in [PRODUCT_UPGRADE.md](PRODUCT_UPGRADE.md): apply only `20261011150000_product_upgrade.sql` and `20261011150100_booking_list_views.sql`, configure the restricted named pending-request expiry job, retain Google configuration, and keep email signup/recovery disabled until SMTP is tested. Deploy the reviewed source on the existing free Vercel project with `SITE_URL=https://skillswap-comm.vercel.app` and verify the canonical alias. Repository instructions require authorization before merge, deployment or cloud database changes.
 
