@@ -44,18 +44,19 @@ Credits are an internal exchange unit, with no purchase, cash withdrawal or paym
 
 ## Release status
 
-The live application uses the preserved working demo source. The owner has demonstrated Google onboarding, a Jitsi call and a 0.5-credit transfer leaving learner/teacher balances of 2.5 and 3.5 credits.
+The live application includes the tested product and UI updates. Its latest performance release, source `a565076`, runs beside Supabase in Mumbai and adds faster page reads, coalesced refreshes and filters that navigate without a full reload. The measured mean full-page response fell from 2.19 to 0.77 seconds in cloud checks; see [performance evidence and rollback](docs/PERFORMANCE.md). Earlier working releases remain available for recovery. Before these updates, the owner demonstrated Google onboarding, a Jitsi call and a 0.5-credit transfer leaving learner/teacher balances of 2.5 and 3.5 credits.
 
 | Status | What it includes |
 | --- | --- |
 | **Live demo** | Authentication, profiles, custom skills, skill matching, responsive navigation, scheduling, reservations, wallets, mutual completion, Jitsi, teacher-saved Meet links, feedback and administration |
-| **Implemented and tested; awaiting rollout** | Opt-in availability, booking notifications, active/history booking views, additional session refresh fixes, password recovery, restricted support cancellation, an expiry worker and a prepared CI workflow on [`product-upgrade`](https://github.com/sonalreji7/skillswap/tree/product-upgrade) |
-| **UI update awaiting release** | Light/dark/system themes and top-of-session call/completion controls are merged into `main`, but the live site still serves the earlier demo. The [`navigation-fixes`](https://github.com/sonalreji7/skillswap/tree/navigation-fixes) follow-up adds visible button links and dashboard booking shortcuts; see the [navigation and release guide](docs/NAVIGATION_FIXES.md) |
+| **Live product update** | Opt-in availability, booking notifications, active/history booking views, session refresh fixes, restricted support cancellation and the scheduled expiry worker. Password-recovery screens are present; email delivery remains disabled until SMTP is tested |
+| **Live UI update** | Light/dark/system themes, visible button links, dashboard booking shortcuts, mobile navigation, recovery screens and top-of-session call/completion controls; see the [navigation and release guide](docs/NAVIGATION_FIXES.md) |
+| **Prepared validation** | The CI workflow is included; an actual remote workflow run and fresh-environment restoration are not yet verified |
 | **Future ideas** | Better matching, demand requests, reputation/abuse controls and more capable video infrastructure; these are proposals without promised release dates |
 
 The working application source is preserved under Git tag `demo-working-2026-10-11`, with merged-release backup branch `demo-backup-2026-10-11`. Production remains on the existing Vercel Hobby project. Git pushes do not currently deploy automatically.
 
-Hosted Supabase retains 16 applied migrations and 12 public application tables. The upgrade adds two migrations and two tables; those additions are tested locally and have not been applied to production. See the [upgrade and rollback guide](https://github.com/sonalreji7/skillswap/blob/product-upgrade/docs/PRODUCT_UPGRADE.md) before releasing that branch.
+Hosted Supabase now has all 18 migrations, row security on 14 public application tables, and the named one-minute pending-request expiry job. The two upgrade migrations are additive; existing ledger data and balances were retained. See the [upgrade and rollback guide](docs/PRODUCT_UPGRADE.md) for recovery. Live public/authenticated HTTP checks passed after deployment; new live Google consent, media and a two-person transfer still require real participants.
 
 ## System architecture
 
@@ -329,7 +330,7 @@ PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e
 
 Tests load `.local/local.env`, require loopback services and refuse hosted account creation. Leave the test app port free and stop task test/dev servers before building. Some tests adjust local timing fixtures; those are not claims of real elapsed hosted sessions or real provider media. The short timed demo test separately verifies actual local elapsed time and exact-once transfer with normal starter grants.
 
-The preserved release has passing unit/build and integration/mobile evidence in [progress](docs/PROGRESS.md). The upgrade has 39 passing unit tests and passing evidence for 32 distinct local integration/browser cases across full and focused runs. Automated checks do not establish external email delivery, Google account interaction or physical-phone video quality.
+The latest release has 39 passing unit tests and passing evidence for 45 distinct local integration/browser cases: a 44-case full regression plus the final seven affected-flow checks after improving filter navigation. Lint, TypeScript and the production build pass; [performance evidence](docs/PERFORMANCE.md) records the live HTTP checks and timings. Automated checks do not establish external email delivery, Google account interaction or physical-phone video quality.
 
 ## Further documentation
 

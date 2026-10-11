@@ -11,12 +11,12 @@ export function publicProfile(row: ProfileRow, reputation: PublicProfile["reputa
     reputation };
 }
 export async function getCurrentUser(client: SupabaseClient<Database>, user: User): Promise<CurrentUser> {
-  const [profile, preferences] = await Promise.all([
+  const [profile, preferences, scores] = await Promise.all([
     client.from("profiles").select("*").eq("id", user.id).maybeSingle(),
     client.from("account_preferences").select("timezone").eq("user_id", user.id).maybeSingle(),
+    reputations(client, [user.id]),
   ]);
   if (profile.error || preferences.error) throw new HttpError(503, "DATABASE_UNAVAILABLE", "Profile storage is unavailable. Check the database migration or try again shortly.");
-  const scores=await reputations(client,profile.data?[user.id]:[]);
   return { id: user.id, profile: profile.data ? publicProfile(profile.data,scores.get(user.id)) : null,
     timezone: preferences.data?.timezone ?? "UTC", emailVerified: Boolean(user.email_confirmed_at) };
 }

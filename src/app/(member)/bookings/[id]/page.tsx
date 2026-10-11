@@ -25,21 +25,22 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
   try { view = await bookingView(client, id); }
   catch (error) { if (error instanceof HttpError && error.code === "NOT_FOUND") notFound(); throw error; }
   const { booking, actions } = view;
-  const review = booking.state === "completed" && !booking.isDemo ? await bookingFeedback(client, id, user.id) : null;
   const funded = booking.state === "accepted" && booking.creditReservationStatus === "held";
-  let meet = null;
-  if (funded) {
-    try { meet = await googleMeetLink(client, id); }
-    catch (error) { if (!(error instanceof HttpError && error.status === 409)) throw error; }
+  async function readMeet() {
+    if (!funded) return null;
+    try { return await googleMeetLink(client, id); }
+    catch (error) { if (error instanceof HttpError && error.status === 409) return null; throw error; }
   }
-  const serverNow = meet?.serverNow ?? new Date().toISOString();
-  const ended = Date.parse(serverNow) >= Date.parse(booking.endsAt);
-  const confirmed = user.id === booking.teacherId ? booking.teacherConfirmed : booking.learnerConfirmed;
-  const [people, skill] = await Promise.all([
+  const [review, meet, people, skill] = await Promise.all([
+    booking.state === "completed" && !booking.isDemo ? bookingFeedback(client, id, user.id) : null,
+    readMeet(),
     client.from("profiles").select("id,display_name").in("id", [booking.teacherId, booking.learnerId]),
     client.from("skills").select("name").eq("id", booking.skillId).maybeSingle(),
   ]);
   if (people.error || skill.error) throw new HttpError(503, "DATABASE_UNAVAILABLE", "Booking details are unavailable.");
+  const serverNow = meet?.serverNow ?? new Date().toISOString();
+  const ended = Date.parse(serverNow) >= Date.parse(booking.endsAt);
+  const confirmed = user.id === booking.teacherId ? booking.teacherConfirmed : booking.learnerConfirmed;
   const name = (personId: string) => people.data?.find(person => person.id === personId)?.display_name ?? "Member";
   return <section className="mx-auto max-w-2xl">
     <Link href="/bookings" className="secondary-button min-h-11 text-accent-strong">Back to bookings</Link>
